@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Python Flask Calendar Scheduling App</title>
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container" id="cblist">
+        <div class="header">
+            <nav>
+                
+                    <a href="/logout">Logout</a>
+                    
+                
+            </nav>
+
+        </div>
+ 
+        
+     <br>
+     
+     
+     
+    <br>
+    <br>
+    
+     
+    <div class="see notes">
+      <h3> Appointments</h3>
+      <table border = 1 id="seeNotes">
+        <tr>
+        
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Title</th>
+        <th>Description</th>
+             </tr>
+         {% for row in result_dict %}
+         
+            <tr>
+
+
+               
+               <td> {{ row.StartTime }}</td>
+               <td> {{ row.EndTime }}</td>
+               <td> {{ row.Title }}</td>
+               <td> {{ row.Description }}</td>
+               
+            </tr>
+            
+         {% endfor %}
+      </table>
+      
+    </div>
+ 
+        
+ 
+    </div>
+  </body>
+  <style>#seeNotes {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#seeNotes td, #seeNotes th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#seeNotes tr:nth-child(even){background-color: #f2f2f2;}
+
+#seeNotes tr:hover {background-color: #ddd;}
+
+#seeNotes th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}</style>
+
+</html>

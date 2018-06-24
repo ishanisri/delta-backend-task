@@ -37,8 +37,8 @@
     <br>
     <br>
     
-     <div id="schedule"><form action="/showAppointmentsPage">
-        <button type="submit" value="Create Notes" id="btnSchedule">Schedule Appointments</button><form>
+     <div id="schedule"><form action="/scheduleAppointments">
+        <button type="submit"  id="btnSchedule">Schedule Appointments</button></form>
     </div>
     <div class="see notes">
       <h3> Appointments</h3>
@@ -46,10 +46,7 @@
         <tr>
         
         <th>Date</th>
-        <th>start Time</th>
-        <th>End Time</th>
-               <th>Title</th>
-               <th>Description</th>
+        
              </tr>
          {% for row in result_dict %}
          
@@ -57,11 +54,8 @@
 
 
                
-               <td> {{ row.Date }} </td>
-               <td> {{ row.StartTime }} </td>
-               <td> {{ row.EndTime }} </td>
-               <td>{{row.Title}}</td>
-               <td>{{row.Description}}</td>
+              <form action="/newView" method="post"> <td> <button id="button" type="submit" name="one" value={{row.Date}}>{{ row.Date }}</button> </td></form>
+               
             </tr>
             
          {% endfor %}
@@ -162,7 +156,7 @@ h1{
     padding: 8px;
 }
 
-#seeNotes tr:nth-child(even){background-color: #f2f2f2;}
+
 
 #seeNotes tr:hover {background-color: #ddd;}
 
@@ -172,6 +166,12 @@ h1{
     text-align: left;
     background-color: #4CAF50;
     color: white;
+}
+
+#button{
+  border: 0px;
+  background-color:white;
+  
 }
 *{
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;

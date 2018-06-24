@@ -26,9 +26,9 @@ def showSignUp():
 def showSignIn():
     return render_template('signin.html') 
 
-@app.route('/showAppointmentsPage')
+@app.route('/scheduleAppointments')
 def showCreateNotes():
-    return render_template('appointments.html') 
+    return render_template('scheduleAppointments.html') 
    
 
 @app.route('/signUp',methods=['GET','POST'])
@@ -46,7 +46,7 @@ def signedUp():
         
         with sql.connect("task.db") as con:
             cur = con.cursor()
-            cur.execute("CREATE TABLE IF NOT EXISTS account_holder( user_id INTEGER NOT NULL AUTOINCREMENT,user_email TEXT DEFAULT NULL,username TEXT NOT NULL PRIMARY KEY,password TEXT DEFAULT NULL)")
+            cur.execute("CREATE TABLE IF NOT EXISTS account_holder(user_email TEXT DEFAULT NULL,username TEXT NOT NULL PRIMARY KEY,password TEXT DEFAULT NULL)")
             cur.execute("INSERT INTO account_holder (user_email,username,password) VALUES (?,?,?)", (email,username,hashed_password))
             cur.execute("CREATE TABLE IF NOT EXISTS APPOINTMENTS(id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,ap_username TEXT  ,title TEXT DEFAULT NULL,description TEXT DEFAULT NULL,apDate TEXT DEFAULT NULL,startTime TEXT DEFAULT NULL,endTime TEXT DEFAULT NULL,FOREIGN KEY(ap_username) REFERENCES account_holder(username))")
             
@@ -186,12 +186,33 @@ def validateLogin():
 	return redirect('/userHome')  
 
 
+@app.route('/newView',methods=['GET','POST'])
+def viewAppointments():
+	if(request.method=='POST'):
+	    con = sql.connect("task.db")
+	    cur=con.cursor()
+	    _date=request.form['one']
+	    print(_date)
+	    _username=session.get('user')
+	    cur.execute("SELECT * FROM APPOINTMENTS WHERE apDate=? AND ap_username=? ORDER BY startTime",(_date,_username))
+	    result=cur.fetchall()
+	    print(result)
+	    result_dict=[]
+
+	    for data in result:
+			        data_dict= {
+			                    
+			                    'Title':data[2],
+			                    'Description':data[3],
+			                    
+			                    'StartTime':data[5],
+			                    'EndTime':data[6]}
+		                     
+			        result_dict.append(data_dict)
+	    print(result_dict)		        
+	    return render_template("newView.html",result_dict=result_dict)		        
 
 
-@app.route('/getList')
-def getCheckedList():
-	
-	return redirect('/userHome')  
 
 if __name__ == "__main__":
      app.run(debug=True)  											
